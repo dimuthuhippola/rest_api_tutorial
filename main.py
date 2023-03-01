@@ -17,6 +17,13 @@ jwt = JWT(application, authenticate, identity)
 
 application.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://dimuthuh:123_bumblebee@localhost:5432/rest_api_tutorial"
 
+@application.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
 db.init_app(application)
 with application.app_context():
     db.create_all()
